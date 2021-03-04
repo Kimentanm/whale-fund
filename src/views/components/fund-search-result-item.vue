@@ -74,6 +74,8 @@ export default {
 
     &-top {
       color: #000;
+      font-weight: bold;
+      font-size: 12px;
     }
 
     &-bottom {

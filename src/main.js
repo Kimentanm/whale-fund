@@ -4,13 +4,9 @@ import router from './router'
 import store from './store'
 import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
-import VueStomp from 'vue-stomp/src';
-import VueBus from 'vue-bus';
 import ErrorTipModal from '@/views/shared/errorTipModal';
 import VueWorker from 'vue-worker'
 
-Vue.use(VueStomp);
-Vue.use(VueBus);
 Vue.use(ErrorTipModal);
 Vue.use(ViewUI);
 Vue.use(VueWorker)

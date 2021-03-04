@@ -11,6 +11,12 @@
           <span class="net-worth-change">+0.25</span>
         </div>
       </div>
+      <div class="fund-chart">
+        <yield-chart
+          v-if="fundDetail.yieldData"
+          :data="fundDetail.yieldData"
+        ></yield-chart>
+      </div>
     </div>
     <spinner v-if="showLoading"></spinner>
   </div>
@@ -19,10 +25,11 @@
 <script>
 import { getFundDetailByFundCode } from '@/libs/fundHelper';
 import Spinner from '@/views/components/spinner';
+import YieldChart from '@/views/components/yield-chart';
 
 export default {
   name: 'FundDetail',
-  components: { Spinner },
+  components: { YieldChart, Spinner },
   props: {
     fundNum: {
       type: String,
@@ -50,6 +57,7 @@ export default {
     async getFundDetailByFundCode() {
       this.showLoading = true;
       this.fundDetail = await getFundDetailByFundCode(this.fundNum)
+      console.log(this.fundDetail);
       this.showLoading = false;
     }
   }
@@ -109,6 +117,11 @@ export default {
           color: #EC4D3D;
         }
       }
+    }
+
+    .fund-chart {
+      height: 300px;
+      width: 100%;
     }
   }
 }
