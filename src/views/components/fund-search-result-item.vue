@@ -19,7 +19,7 @@ export default {
   name: 'FundSearchResultItem',
   components: {},
   props: {
-    currentSelected: {
+    selectedIndex: {
       type: Number,
       default: -1
     },
@@ -38,10 +38,10 @@ export default {
   },
   computed: {
     isSelected() {
-      return this.currentSelected === this.slotProps.row
+      return this.selectedIndex === this.slotProps.row
     },
     isPrev() {
-      return this.currentSelected - 1 === this.slotProps.row
+      return this.selectedIndex - 1 === this.slotProps.row
     }
   },
   watch: {},

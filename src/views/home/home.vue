@@ -23,9 +23,9 @@
               :fund-code="slotProps.item[1]"
               :fund-name="slotProps.item[2]"
               :fund-type="slotProps.item[3]"
-              :current-selected="currentSelectedFund"
+              :selected-index="selectedFundIndex"
               :slot-props="slotProps"
-              @click.native="currentSelectedFund = slotProps.row"
+              @click.native="selectFund(slotProps)"
             />
           </virtual-list>
         </div>
@@ -44,7 +44,7 @@
     <div id="resize"></div>
     <div id="right">
       <detail-title-bar />
-      <fund-detail v-if="currentSelectedFund !== -1" :fund-num="searchResultList[currentSelectedFund][0]"></fund-detail>
+      <fund-detail v-if="$store.state.app.selectedFundNum"></fund-detail>
     </div>
     <p></p>
   </div>
@@ -61,6 +61,7 @@ import Store from 'electron-store'
 const store = new Store();
 import _ from 'loadsh'
 import { shell } from 'electron'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'Home',
@@ -79,7 +80,7 @@ export default {
       searchValue: '',
       searchResultList: [],
       searchWorker: {},
-      currentSelectedFund: -1
+      selectedFundIndex: -1
     };
   },
   computed: {
@@ -106,7 +107,7 @@ export default {
       this.searchResultList = []
       this.$nextTick(() => {
         this.searchResultList = res
-        this.currentSelectedFund = -1
+        this.selectedFundIndex = -1
       })
     }, 1000)
   },
@@ -126,6 +127,13 @@ export default {
     this.searchWorker = null
   },
   methods: {
+    ...mapMutations([
+      'setSelectedFundNum'
+    ]),
+    selectFund(slotProps) {
+      this.selectedFundIndex = slotProps.row
+      this.setSelectedFundNum(slotProps.item[0])
+    },
     goToGithub() {
       shell.openExternal('https://github.com/Kimentanm')
     },

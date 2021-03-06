@@ -7,13 +7,16 @@
           <span class="fund-code">{{ fundDetail.fundNum }}</span>
         </div>
         <div class="right">
-          <span class="net-worth">26.05</span>
-          <span class="net-worth-change">+0.25</span>
+          <div class="yield-month">
+            <span class="yield-month-value" :style="{color: isYieldMonthPlus ? '#EC4D3D' : '#6DC66E'}">{{ fundDetail.yieldMonth }}%</span>
+            <span class="yield-month-tip">近一月收益率</span>
+          </div>
         </div>
       </div>
       <div class="fund-chart">
         <yield-chart
           v-if="fundDetail.yieldData"
+          ref="yieldChart"
           :data="fundDetail.yieldData"
         ></yield-chart>
       </div>
@@ -30,22 +33,25 @@ import YieldChart from '@/views/components/yield-chart';
 export default {
   name: 'FundDetail',
   components: { YieldChart, Spinner },
-  props: {
-    fundNum: {
-      type: String,
-      default: () => ''
-    }
-  },
+  props: {},
   data() {
     return {
       fundDetail: {},
       showLoading: false
     }
   },
-  computed: {},
+  computed: {
+    isYieldMonthPlus() {
+      return (this.fundDetail.yieldMonth || 0) >= 0
+    },
+    selectedFundNum() {
+      return this.$store.state.app.selectedFundNum
+    }
+  },
   watch: {
-    fundNum(val) {
-      this.getFundDetailByFundCode()
+    async selectedFundNum() {
+      await this.getFundDetailByFundCode()
+      this.$refs.yieldChart.reload()
     }
   },
   mounted() {
@@ -56,7 +62,7 @@ export default {
   methods: {
     async getFundDetailByFundCode() {
       this.showLoading = true;
-      this.fundDetail = await getFundDetailByFundCode(this.fundNum)
+      this.fundDetail = await getFundDetailByFundCode(this.selectedFundNum)
       console.log(this.fundDetail);
       this.showLoading = false;
     }
@@ -105,16 +111,19 @@ export default {
         bottom: 0;
         font-weight: bold;
 
-        .net-worth {
-          font-size: 15px;
-          margin-right: 10px;
-          color: #000;
-        }
+        .yield-month {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
 
-        .net-worth-change {
-          font-size: 12px;
-          margin-right: 20px;
-          color: #EC4D3D;
+          &-value {
+            font-size: 15px;
+          }
+
+          &-tip {
+            font-size: 12px;
+            color: #808080
+          }
         }
       }
     }

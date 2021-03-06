@@ -4,7 +4,6 @@
 
 <script>
 import * as echarts from 'echarts'
-import { on, off } from '@/libs/tools'
 import dayjs from 'dayjs'
 
 const bgColor = '#fff';
@@ -37,12 +36,12 @@ const option = {
   tooltip: {
     trigger: 'axis',
     formatter: function(params) {
-      let html = '';
+      let html = `<div style="font-size: 16px;color: #000;font-weight: bold">${params[0].axisValue}</div>`;
       params.forEach(v => {
         html += `<div style="color: #666;font-size: 14px;line-height: 24px">
                 <span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${color[v.componentIndex]};"></span>
                 ${v.seriesName}
-                <span style="color:${color[v.componentIndex]};font-weight:700;font-size: 18px">${v.value}</span>`;
+                <span style="color:${color[v.componentIndex]};font-weight:700;font-size: 14px">${v.value}%</span>`;
       })
       return html
     },
@@ -57,30 +56,33 @@ const option = {
     }
   },
   grid: {
-    left: 30,
-    right: 10
+    left: 32,
+    right: 30,
+    bottom: 30
   },
-  dataZoom: [
-    {
-      show: true,
-      realtime: true,
-      start: 0,
-      end: 100
-    },
-    {
-      type: 'inside',
-      realtime: true,
-      start: 0,
-      end: 100
-    }
-  ],
+  // dataZoom: [
+  //   {
+  //     show: true,
+  //     realtime: true,
+  //     start: 0,
+  //     end: 100
+  //   },
+  //   {
+  //     type: 'inside',
+  //     realtime: true,
+  //     start: 0,
+  //     end: 100
+  //   }
+  // ],
   xAxis: [{
     type: 'category',
     boundaryGap: false,
     axisLabel: {
       formatter: '{value}',
+      fontWeight: 'bold',
+      fontSize: 14,
       textStyle: {
-        color: '#333'
+        color: '#000'
       }
     },
     axisLine: {
@@ -93,9 +95,12 @@ const option = {
   yAxis: [
     {
       type: 'value',
+      position: 'right',
       axisLabel: {
+        fontWeight: 'bold',
+        fontSize: 14,
         textStyle: {
-          color: '#666'
+          color: '#000'
         }
       },
       nameTextStyle: {
@@ -246,7 +251,7 @@ export default {
   },
   data() {
     return {
-      chart: {},
+      chart: undefined,
       fundData: [],
       avgData: [],
       hushen300Data: [],
@@ -258,29 +263,32 @@ export default {
   mounted() {
     this.chart = echarts.init(this.$refs.dom)
     this.chart.setOption(option)
-    on(window, 'resize', this.resize)
   },
   created() {
-    this.xData = this.data[0].data.map(item => dayjs(new Date(item[0])).format('YY/MM/DD'))
-    this.fundData = this.data[0].data.map(item => item[1])
-    this.avgData = this.data[1].data.map(item => item[1])
-    console.log(this.avgData);
-    this.hushen300Data = this.data[2].data.map(item => item[1])
-    option.xAxis[0].data = this.xData
-    option.series[0].name = this.data[0].name
-    option.series[0].data = this.fundData
-    option.series[1].name = this.data[1].name
-    option.series[1].data = this.avgData
-    option.series[2].name = this.data[2].name
-    option.series[2].data = this.hushen300Data
+    this.handleOption()
   },
   beforeDestroy() {
-    off(window, 'resize', this.resize)
   },
   methods: {
-    resize() {
-      this.dom.resize()
-    }
+    reload() {
+      if (this.chart) {
+        this.handleOption()
+        this.chart.setOption(option)
+      }
+    },
+    handleOption() {
+      this.xData = this.data[0].data.map(item => dayjs(new Date(item[0])).format('YY/MM/DD'))
+      this.fundData = this.data[0].data.map(item => item[1])
+      this.avgData = this.data[1].data.map(item => item[1])
+      this.hushen300Data = this.data[2].data.map(item => item[1])
+      option.xAxis[0].data = this.xData
+      option.series[0].name = this.data[0].name
+      option.series[0].data = this.fundData
+      option.series[1].name = this.data[1].name
+      option.series[1].data = this.avgData
+      option.series[2].name = this.data[2].name
+      option.series[2].data = this.hushen300Data
+    },
   }
 }
 </script>

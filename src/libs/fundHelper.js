@@ -12,7 +12,7 @@ export const getAllFundList = async() => {
 
 export const getFundDetailByFundCode = async(fundNum) => {
   const res = await axios.get(`http://fund.eastmoney.com/pingzhongdata/${fundNum}.js`)
-  const expression = res.data + ';return { fundName: fS_name, fundNum: fS_code, yieldData: Data_grandTotal};'
+  const expression = res.data + ';return { fundName: fS_name, fundNum: fS_code, yieldData: Data_grandTotal, yieldMonth: parseFloat(syl_1y)};'
   // eslint-disable-next-line no-eval
   const result = eval('(function() {' + expression + '}())');
   store.set('fundDetail', result)
