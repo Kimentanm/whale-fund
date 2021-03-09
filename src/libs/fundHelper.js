@@ -18,3 +18,15 @@ export const getFundDetailByFundCode = async(fundNum) => {
   store.set('fundDetail', result)
   return result;
 }
+
+export const setFundAttentionList = (fundNum) => {
+  const fundAttentionList = getFundAttentionList()
+  if (fundAttentionList.indexOf(fundNum) === -1) {
+    fundAttentionList.push(fundNum);
+  }
+  store.set('fundAttentionList', fundAttentionList)
+}
+
+export const getFundAttentionList = () => {
+  return store.get('fundAttentionList') || [];
+}

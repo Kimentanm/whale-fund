@@ -1,17 +1,22 @@
 <template>
   <div id="detail-title-bar">
-    <Button v-if="showAddAttentionBtn" class="add-attention-btn" type="primary" @click="addAttention(selectedFundNum)">添加到关注列表</Button>
+    <Button v-if="showAddAttentionBtn" class="add-attention-btn" type="primary" @click="addAttentionToList()">添加到关注列表</Button>
+
+    <success-modal v-model="showSuccessModal" />
   </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
+import SuccessModal from '@/views/shared/successModal';
 export default {
   name: 'DetailTitleBar',
-  components: {},
+  components: { SuccessModal },
   props: {},
   data() {
-    return {}
+    return {
+      showSuccessModal: false
+    }
   },
   computed: {
     showAddAttentionBtn() {
@@ -31,6 +36,13 @@ export default {
     ...mapMutations([
       'addAttention'
     ]),
+    addAttentionToList() {
+      this.showSuccessModal = true;
+      this.addAttention(this.selectedFundNum)
+      setTimeout(() => {
+        this.showSuccessModal = false;
+      }, 2000)
+    }
   }
 }
 </script>

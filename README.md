@@ -7,15 +7,19 @@
 </p>
 
 ## 介绍
-使用Electron创建跨平台的桌面应用，灵感来自于Mac系统自带应用`股市`
-![](https://cdn.jsdelivr.net/gh/kimentanm/image-store/img/20210303232413.png)
+使用Electron创建跨平台的桌面应用，灵感来自于Mac系统自带应用`股市`  
 由于近几年基金非常的火🔥，所以就按照股市App的样式开发一个基金的版本
+### 股市APP首页
+![](https://cdn.jsdelivr.net/gh/kimentanm/image-store/img/20210303232413.png)
+### 基鲸APP首页
+![](https://cdn.jsdelivr.net/gh/kimentanm/image-store/img/20210310004948.png)
 
 ## 数据来源
 本App的数据来源于`天天基金`网站提供的接口，比如
 > http://fund.eastmoney.com/js/fundcode_search.js  
 > 这个接口可以查询到所有的基金列表数据
 
+##
 
 ## 已实现功能
 - 通过基金编号和基金名称查询

@@ -11,23 +11,21 @@
             <h1>{{ searchResultTitle }}</h1>
           </div>
           <Divider />
-          <virtual-list
+          <fund-search-list
             v-if="searchResultList.length"
-            v-slot="slotProps"
-            class="virtual-list"
-            :list-data="searchResultList"
-            :estimated-item-size="30"
-          >
-            <fund-search-result-item
-              :fund-num="slotProps.item[0]"
-              :fund-code="slotProps.item[1]"
-              :fund-name="slotProps.item[2]"
-              :fund-type="slotProps.item[3]"
-              :selected-index="selectedFundIndex"
-              :slot-props="slotProps"
-              @click.native="selectFund(slotProps)"
-            />
-          </virtual-list>
+            :data="searchResultList"
+            :fund-index="selectedFundIndex"
+            @selectChange="selectedFundIndex = $event"
+          ></fund-search-list>
+        </div>
+      </div>
+      <div v-show="!searchValue" class="fund-list-content">
+        <div class="attention-fund-list">
+          <fund-attention-list
+            :data="fundAttentionList"
+            :fund-index="selectedAttentionFundIndex"
+            @selectChange="selectedAttentionFundIndex = $event"
+          ></fund-attention-list>
         </div>
       </div>
       <div class="fund-footer">
@@ -53,23 +51,23 @@
 <script>
 import TitleBar from '../components/title-bar'
 import DetailTitleBar from '../components/detail-title-bar'
-import FundSearchResultItem from '../components/fund-search-result-item'
 import FundDetail from '../components/fund-detail'
-import VirtualList from 'vue-virtual-listview'
 const ipcRenderer = require('electron').ipcRenderer;
 import Store from 'electron-store'
 const store = new Store();
 import _ from 'loadsh'
 import { shell } from 'electron'
-import { mapMutations } from 'vuex'
+import FundSearchList from '@/views/components/fund-search-list';
+import FundAttentionList from '@/views/components/fund-attenton-list';
+import { mapMutations } from 'vuex';
 
 export default {
   name: 'Home',
   components: {
+    FundSearchList,
+    FundAttentionList,
     TitleBar,
     DetailTitleBar,
-    FundSearchResultItem,
-    VirtualList,
     FundDetail
   },
   data: function() {
@@ -80,7 +78,8 @@ export default {
       searchValue: '',
       searchResultList: [],
       searchWorker: {},
-      selectedFundIndex: -1
+      selectedFundIndex: -1,
+      selectedAttentionFundIndex: -1
     };
   },
   computed: {
@@ -99,7 +98,11 @@ export default {
         title = '名称'
       }
       return title;
-    }
+    },
+    fundAttentionList() {
+      const fundNumList = this.$store.state.app.fundAttentionList
+      return this.getFundListByFunNumList(fundNumList)
+    },
   },
   watch: {
     searchValue: _.debounce(async function(val) {
@@ -118,6 +121,7 @@ export default {
     ipcRenderer.on('onBlur', this.handleOnBlur);
     ipcRenderer.on('onFocus', this.handleOnFocus);
     this.initWorker()
+    this.initFundAttentionList();
   },
   beforeDestroy() {
     ipcRenderer.removeListener('onBlur', this.handleOnBlur);
@@ -128,11 +132,25 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setSelectedFundNum'
+      'initFundAttentionList'
     ]),
-    selectFund(slotProps) {
-      this.selectedFundIndex = slotProps.row
-      this.setSelectedFundNum(slotProps.item[0])
+    getFundListByFunNumList(fundNumList) {
+      const result = []
+      for (let i = 0; i < this.fundList.length; i++) {
+        if (fundNumList.indexOf(this.fundList[i][0]) !== -1) {
+          const resultItem = this.fundList[i];
+          result.push({
+            fundNum: resultItem[0],
+            fundCode: resultItem[1],
+            fundName: resultItem[2],
+            fundType: resultItem[3]
+          })
+        }
+        if (result.length === fundNumList.length) {
+          break
+        }
+      }
+      return result
     },
     goToGithub() {
       shell.openExternal('https://github.com/Kimentanm')
@@ -298,12 +316,22 @@ export default {
       overflow-y: auto;
     }
 
+    .attention-fund-list {
+      width: 100%;
+      height: 100%;
+      position: relative;
+
+      .fund-list {
+        height: 100%;
+      }
+    }
+
     &-search-result {
       width: 100%;
       height: 100%;
       position: relative;
 
-      .virtual-list {
+      .fund-list {
         height: calc(100% - 94px);
       }
 

@@ -63,7 +63,6 @@ export default {
     async getFundDetailByFundCode() {
       this.showLoading = true;
       this.fundDetail = await getFundDetailByFundCode(this.selectedFundNum)
-      console.log(this.fundDetail);
       this.showLoading = false;
     }
   }
