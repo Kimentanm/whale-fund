@@ -1,12 +1,12 @@
 <template>
   <div id="home">
-    <div id="left" class="fund-list" :class="focus ? 'bg-transparent' : ''" :style="{ width: detailWidth + 'px' }">
+    <div id="left" class="fund-list-container" :class="focus ? 'bg-transparent' : ''" :style="{ width: detailWidth + 'px' }">
       <title-bar></title-bar>
       <div class="fund-list-search" :class="focus ? 'bg-transparent' : ''">
         <Input v-model="searchValue" clearable prefix="ios-search" placeholder="搜索" class="width-100" />
       </div>
-      <div v-show="searchValue" class="fund-list-content">
-        <div class="fund-list-search-result">
+      <div class="fund-list-content">
+        <div v-show="searchValue" class="fund-list-search-result">
           <div class="fund-list-search-result-title">
             <h1>{{ searchResultTitle }}</h1>
           </div>
@@ -18,13 +18,11 @@
             @selectChange="selectedFundIndex = $event"
           ></fund-search-list>
         </div>
-      </div>
-      <div v-show="!searchValue" class="fund-list-content">
-        <div class="attention-fund-list">
+        <div v-show="!searchValue" class="attention-fund-list">
           <fund-attention-list
-            :data="fundAttentionList"
-            :fund-index="selectedAttentionFundIndex"
-            @selectChange="selectedAttentionFundIndex = $event"
+              :data="fundAttentionList"
+              :fund-index="selectedAttentionFundIndex"
+              @selectChange="selectedAttentionFundIndex = $event"
           ></fund-attention-list>
         </div>
       </div>
@@ -100,8 +98,17 @@ export default {
       return title;
     },
     fundAttentionList() {
-      const fundNumList = this.$store.state.app.fundAttentionList
-      return this.getFundListByFunNumList(fundNumList)
+      const result = []
+      const list = this.$store.state.app.fundAttentionList
+      list.forEach(item => {
+        result.push({
+          fundNum: item[0],
+          fundCode: item[1],
+          fundName: item[2],
+          fundType: item[3],
+        })
+      })
+      return result
     },
   },
   watch: {
@@ -121,7 +128,6 @@ export default {
     ipcRenderer.on('onBlur', this.handleOnBlur);
     ipcRenderer.on('onFocus', this.handleOnFocus);
     this.initWorker()
-    this.initFundAttentionList();
   },
   beforeDestroy() {
     ipcRenderer.removeListener('onBlur', this.handleOnBlur);
@@ -249,12 +255,12 @@ export default {
     background-color: transparent !important;
   }
 
-  .fund-list {
+  .fund-list-container {
     min-width: 165px;
     background-color: #EAEAEB;
     position: relative;
 
-    &-search {
+    .fund-list-search {
       height: 44px;
       padding: 0 11px;
       display: flex;
@@ -310,7 +316,7 @@ export default {
       }
     }
 
-    &-content {
+    .fund-list-content {
       width: 100%;
       height: calc(100% - 96px);
       overflow-y: auto;

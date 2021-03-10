@@ -8,7 +8,7 @@
       <div class="result-item-split result-item-bottom">
         <span>{{ fundType }}</span>
         <div class="yield-month" :style="{backgroundColor: yieldMonth >= 0 ? '#EC4D3D' : '#65C366'}">
-          <span style="color: #fff">{{ yieldMonth }}</span>
+          <span style="color: #fff">{{ yieldMonth >= 0 ? `+${yieldMonth}` : yieldMonth }}</span>
         </div>
       </div>
     </div>
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { getFundDetailByFundCode } from '@/libs/fundHelper';
+
 export default {
   name: 'FundSearchResultItem',
   components: {},
@@ -44,14 +46,12 @@ export default {
     fundType: {
       type: String,
       default: ''
-    },
-    yieldMonth: {
-      type: Number,
-      default: 0
-    },
+    }
   },
   data() {
-    return {}
+    return {
+      yieldMonth: 0
+    }
   },
   computed: {
     isSelected() {
@@ -64,7 +64,9 @@ export default {
   watch: {},
   mounted() {
   },
-  created() {
+  async created() {
+    const data = await getFundDetailByFundCode(this.fundNum)
+    this.yieldMonth = data.yieldMonth
   },
   methods: {}
 }

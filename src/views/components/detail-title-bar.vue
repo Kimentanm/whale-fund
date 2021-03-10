@@ -20,10 +20,13 @@ export default {
   },
   computed: {
     showAddAttentionBtn() {
-      return this.selectedFundNum && this.fundAttentionList.indexOf(this.selectedFundNum) === -1
+      return this.selectedFundNum && this.fundAttentionList.findIndex(item => item[0] === this.selectedFundNum) === -1
     },
     selectedFundNum() {
       return this.$store.state.app.selectedFundNum
+    },
+    selectedFund() {
+      return this.$store.state.app.selectedFund
     },
     fundAttentionList() {
       return this.$store.state.app.fundAttentionList
@@ -38,7 +41,7 @@ export default {
     ]),
     addAttentionToList() {
       this.showSuccessModal = true;
-      this.addAttention(this.selectedFundNum)
+      this.addAttention(this.selectedFund)
       setTimeout(() => {
         this.showSuccessModal = false;
       }, 2000)

@@ -2,21 +2,21 @@ import { setFundAttentionList, getFundAttentionList } from '@/libs/fundHelper'
 export default {
   state: {
     selectedFundNum: '',
-    fundAttentionList: [],
+    selectedFund: [],
+    fundAttentionList: getFundAttentionList(),
     currentFundAttentionList: []
   },
   mutations: {
-    addAttention(state, fundNum) {
-      setFundAttentionList(fundNum)
-      state.fundAttentionList.push(fundNum)
-      state.currentFundAttentionList.push(fundNum)
+    addAttention(state, fund) {
+      setFundAttentionList(fund)
+      state.fundAttentionList.push(fund)
+      state.currentFundAttentionList.push(fund)
+    },
+    setSelectedFund(state, fundData) {
+      state.selectedFund = fundData
     },
     setSelectedFundNum(state, fundNum) {
       state.selectedFundNum = fundNum
-    },
-    // 只能这样初始化fundAttentionList，直接写在state中会导致很卡，不知道为什么
-    initFundAttentionList(state) {
-      state.fundAttentionList = getFundAttentionList()
     }
   }
 }

@@ -1,16 +1,15 @@
 <template>
-  <div v-if="init" class="fund-list">
+  <div class="fund-list">
     <fund-attention-item
       v-for="(item, index) in data"
       :key="index"
       :fund-num="item.fundNum"
       :fund-type="item.fundType"
       :fund-name="item.fundName"
-      :yield-month="item.yieldMonth"
       :selected-index="fundIndex"
       :slot-props="item"
       :current-index="index"
-      @click.native="selectFund(item.fundNum, index)"
+      @click.native="selectFund(item, index)"
     />
   </div>
 </template>
@@ -18,7 +17,6 @@
 <script>
 import FundAttentionItem from '@/views/components/fund-attention-item';
 import { mapMutations } from 'vuex';
-import { getFundDetailByFundCode } from '@/libs/fundHelper';
 
 export default {
   name: 'FundList',
@@ -36,37 +34,23 @@ export default {
     }
   },
   data() {
-    return {
-      init: false
-    }
+    return {}
   },
   computed: {},
   watch: {},
   mounted() {
   },
   async created() {
-    const promiseList = this.data.map(item => {
-      return getFundDetailByFundCode(item.fundNum)
-    })
-    const result = await Promise.all(promiseList)
-    this.data.forEach(dataItem => {
-      for (let i = 0; i < result.length; i++) {
-        const item = result[i]
-        if (item.fundNum === dataItem.fundNum) {
-          dataItem.yieldMonth = item.yieldMonth
-          break
-        }
-      }
-    })
-    this.init = true
   },
   methods: {
     ...mapMutations([
+      'setSelectedFund',
       'setSelectedFundNum'
     ]),
-    selectFund(fundNum, index) {
+    selectFund(fund, index) {
       this.$emit('selectChange', index)
-      this.setSelectedFundNum(fundNum)
+      this.setSelectedFund(fund)
+      this.setSelectedFundNum(fund.fundNum)
     }
   }
 }

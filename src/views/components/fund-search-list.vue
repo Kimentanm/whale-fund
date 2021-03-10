@@ -50,11 +50,13 @@ export default {
   created() {},
   methods: {
     ...mapMutations([
-      'setSelectedFundNum'
+      'setSelectedFundNum',
+      'setSelectedFund'
     ]),
     selectFund(slotProps) {
       this.$emit('selectChange', slotProps.row)
       this.setSelectedFundNum(slotProps.item[0])
+      this.setSelectedFund(slotProps.item)
     },
   }
 }

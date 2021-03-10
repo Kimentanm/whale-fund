@@ -52,7 +52,7 @@ export default {
     async selectedFundNum() {
       await this.getFundDetailByFundCode()
       this.$refs.yieldChart.reload()
-    }
+    },
   },
   mounted() {
   },
