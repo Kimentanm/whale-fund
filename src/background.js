@@ -71,6 +71,8 @@ function createWindow() {
   win.on('focus', () => {
     win.webContents.send('onFocus');
   });
+
+  // win.webContents.openDevTools()
 }
 
 function exitApp() {

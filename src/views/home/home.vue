@@ -20,9 +20,9 @@
         </div>
         <div v-show="!searchValue" class="attention-fund-list">
           <fund-attention-list
-              :data="fundAttentionList"
-              :fund-index="selectedAttentionFundIndex"
-              @selectChange="selectedAttentionFundIndex = $event"
+            :data="fundAttentionList"
+            :fund-index="selectedAttentionFundIndex"
+            @selectChange="selectedAttentionFundIndex = $event"
           ></fund-attention-list>
         </div>
       </div>
@@ -332,7 +332,7 @@ export default {
       }
     }
 
-    &-search-result {
+    .fund-list-search-result {
       width: 100%;
       height: 100%;
       position: relative;
