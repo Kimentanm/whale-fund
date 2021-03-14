@@ -6,6 +6,8 @@
 <img alt="Electron Version" src="https://img.shields.io/badge/electron-v6.0.0-blue">
 </p>
 
+> 使用`Vue3.0` & `Vite`重构中
+
 ## 介绍
 使用Electron创建跨平台的桌面应用，灵感来自于Mac系统自带应用`股市`  
 由于近几年基金非常的火🔥，所以就按照股市App的样式开发一个基金的版本
