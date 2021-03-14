@@ -81,9 +81,7 @@ const option = {
       formatter: '{value}',
       fontWeight: 'bold',
       fontSize: 14,
-      textStyle: {
-        color: '#000'
-      }
+      color: '#000'
     },
     axisLine: {
       lineStyle: {
@@ -99,9 +97,7 @@ const option = {
       axisLabel: {
         fontWeight: 'bold',
         fontSize: 14,
-        textStyle: {
-          color: '#000'
-        }
+        color: '#000'
       },
       nameTextStyle: {
         color: '#666',
@@ -129,34 +125,30 @@ const option = {
       symbolSize: 8,
       zlevel: 3,
       lineStyle: {
-        normal: {
-          color: color[0],
-          shadowBlur: 3,
-          shadowColor: hexToRgba(color[0], 0.5),
-          shadowOffsetY: 8
-        }
+        color: color[0],
+        shadowBlur: 3,
+        shadowColor: hexToRgba(color[0], 0.5),
+        shadowOffsetY: 8
       },
       areaStyle: {
-        normal: {
-          color: new echarts.graphic.LinearGradient(
-            0,
-            0,
-            0,
-            1,
-            [{
-              offset: 0,
-              color: hexToRgba(color[0], 0.3)
-            },
-            {
-              offset: 1,
-              color: hexToRgba(color[0], 0.1)
-            }
-            ],
-            false
-          ),
-          shadowColor: hexToRgba(color[0], 0.1),
-          shadowBlur: 10
-        }
+        color: new echarts.graphic.LinearGradient(
+          0,
+          0,
+          0,
+          1,
+          [{
+            offset: 0,
+            color: hexToRgba(color[0], 0.3)
+          },
+          {
+            offset: 1,
+            color: hexToRgba(color[0], 0.1)
+          }
+          ],
+          false
+        ),
+        shadowColor: hexToRgba(color[0], 0.1),
+        shadowBlur: 10
       },
       data: []
     },
@@ -167,34 +159,30 @@ const option = {
       symbolSize: 8,
       zlevel: 3,
       lineStyle: {
-        normal: {
-          color: color[1],
-          shadowBlur: 3,
-          shadowColor: hexToRgba(color[1], 0.5),
-          shadowOffsetY: 8
-        }
+        color: color[1],
+        shadowBlur: 3,
+        shadowColor: hexToRgba(color[1], 0.5),
+        shadowOffsetY: 8
       },
       areaStyle: {
-        normal: {
-          color: new echarts.graphic.LinearGradient(
-            0,
-            0,
-            0,
-            1,
-            [{
-              offset: 0,
-              color: hexToRgba(color[1], 0.3)
-            },
-            {
-              offset: 1,
-              color: hexToRgba(color[1], 0.1)
-            }
-            ],
-            false
-          ),
-          shadowColor: hexToRgba(color[1], 0.1),
-          shadowBlur: 10
-        }
+        color: new echarts.graphic.LinearGradient(
+          0,
+          0,
+          0,
+          1,
+          [{
+            offset: 0,
+            color: hexToRgba(color[1], 0.3)
+          },
+          {
+            offset: 1,
+            color: hexToRgba(color[1], 0.1)
+          }
+          ],
+          false
+        ),
+        shadowColor: hexToRgba(color[1], 0.1),
+        shadowBlur: 10
       },
       data: []
     },
@@ -206,34 +194,30 @@ const option = {
       symbolSize: 8,
       zlevel: 3,
       lineStyle: {
-        normal: {
-          color: color[2],
-          shadowBlur: 3,
-          shadowColor: hexToRgba(color[1], 0.5),
-          shadowOffsetY: 8
-        }
+        color: color[2],
+        shadowBlur: 3,
+        shadowColor: hexToRgba(color[1], 0.5),
+        shadowOffsetY: 8
       },
       areaStyle: {
-        normal: {
-          color: new echarts.graphic.LinearGradient(
-            0,
-            0,
-            0,
-            1,
-            [{
-              offset: 0,
-              color: hexToRgba(color[1], 0.3)
-            },
-            {
-              offset: 1,
-              color: hexToRgba(color[1], 0.1)
-            }
-            ],
-            false
-          ),
-          shadowColor: hexToRgba(color[1], 0.1),
-          shadowBlur: 10
-        }
+        color: new echarts.graphic.LinearGradient(
+          0,
+          0,
+          0,
+          1,
+          [{
+            offset: 0,
+            color: hexToRgba(color[1], 0.3)
+          },
+          {
+            offset: 1,
+            color: hexToRgba(color[1], 0.1)
+          }
+          ],
+          false
+        ),
+        shadowColor: hexToRgba(color[1], 0.1),
+        shadowBlur: 10
       },
       data: []
     }
